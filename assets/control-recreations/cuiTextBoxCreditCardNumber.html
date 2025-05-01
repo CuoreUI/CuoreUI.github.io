@@ -1,0 +1,141 @@
+<style>
+    :root {
+      --cuoreui-primary: #FF6A00;
+    }
+  
+    body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  margin-top: 12px;
+   overflow:hidden;
+}
+  
+    .textboxwrapper {
+        cursor:text;
+      position: relative;
+      margin: 10px;
+      border-radius: 8px;
+      background-color: white;
+      border-bottom: 1px solid rgba(64, 128, 128, 0.5);
+      display: flex;
+      align-items: center;
+      width: 266px;
+      height: 45px;
+    }
+  
+    .textboxwrapper:focus-within {
+      border-bottom: 1px solid var(--cuoreui-primary);
+    }
+  
+    .textboxwrapper input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 13px;
+      font-weight: lighter;
+      background: transparent;
+      margin-left: 36px;
+    }
+  
+    .dynamic-lock-icon {
+      position: absolute;
+      pointer-events: none;
+      width: 16px;
+      height: 16px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin-left: 12px;
+    }
+  </style>
+  
+  <label class="textboxwrapper">
+    <input type="text" id="creditCardInput" placeholder="Card number">
+    <img class="dynamic-lock-icon" id="cardIcon" src="./icons/credit_card.png"/>
+  </label>
+  
+  <script>
+    const input = document.getElementById("creditCardInput");
+    const icon = document.getElementById("cardIcon");
+  
+    const cardIcons = {
+      Unknown: "credit_card.png",
+      Visa: "visa.png",
+      MasterCard: "mastercard.png",
+      AmericanExpress: "americanexpress.png",
+      Discover: "discover.png",
+      JCB: "jcb.png",
+      Maestro: "maestro.png",
+      DinersClub: "dinersclub.png",
+      UnionPay: "unionpay.png",
+      RuPay: "rupay.png",
+      UATP: "uatp.png",
+    };
+  
+    input.addEventListener("input", () => {
+      formatInput();
+      const type = detectCardType(input.value);
+      icon.src = "./icons/" + (cardIcons[type] || cardIcons.Unknown);
+    });
+  
+    function formatInput() {
+      const raw = input.value.replace(/\D/g, "").substring(0, 19);
+      const formatted = raw.match(/.{1,4}/g)?.join(" ") ?? "";
+      input.value = formatted;
+    }
+  
+    function detectCardType(number) {
+      const cardNumber = number.replace(/\s/g, "");
+      if (!cardNumber || cardNumber.length < 4) return "Unknown";
+  
+      const prefix2 = parseInt(cardNumber.substring(0, 2));
+      const prefix3 = parseInt(cardNumber.substring(0, 3));
+      const prefix4 = parseInt(cardNumber.substring(0, 4));
+      const prefix6 = parseInt(cardNumber.substring(0, 6));
+  
+      if (cardNumber.startsWith("4")) return "Visa";
+  
+      if ((prefix2 >= 51 && prefix2 <= 55) || (prefix4 >= 2221 && prefix4 <= 2720))
+        return "MasterCard";
+  
+      if (cardNumber.startsWith("34") || cardNumber.startsWith("37"))
+        return "AmericanExpress";
+  
+      if (
+        cardNumber.startsWith("6011") ||
+        cardNumber.startsWith("65") ||
+        (prefix6 >= 622126 && prefix6 <= 622925) ||
+        (prefix3 >= 644 && prefix3 <= 649)
+      )
+        return "Discover";
+  
+      if (prefix4 >= 3528 && prefix4 <= 3589) return "JCB";
+  
+      if (
+        [
+          5018, 5020, 5038, 5893,
+          6304, 6759, 6761, 6762, 6763,
+        ].includes(prefix4)
+      )
+        return "Maestro";
+  
+      if ([36, 38, 39].includes(prefix2)) return "DinersClub";
+  
+      if (cardNumber.startsWith("62")) return "UnionPay";
+  
+      if (
+        (prefix6 >= 508500 && prefix6 <= 508999) ||
+        (prefix6 >= 606985 && prefix6 <= 607984) ||
+        (prefix6 >= 608001 && prefix6 <= 608500) ||
+        (prefix6 >= 652150 && prefix6 <= 653149)
+      )
+        return "RuPay";
+  
+      if (cardNumber.startsWith("1")) return "UATP";
+  
+      return "Unknown";
+    }
+  </script>
+  

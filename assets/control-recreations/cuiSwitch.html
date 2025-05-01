@@ -1,0 +1,81 @@
+<style>
+/* https://www.w3schools.com/howto/howto_css_switch.asp */
+
+:root {
+  --cuoreui-primary: #FF6A00;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  margin-top: 12px;
+   overflow:hidden;
+}
+
+.contact-buttons
+{
+  margin-left: 50em;
+}
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #E2E2E2;
+
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background: url("./icons/unchecked-x.png");
+    transition: 0.25s all cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  
+  input:checked + .slider {
+    background-color: rgb(255, 106, 0, 0.25);
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(24px);
+    -ms-transform: translateX(24px);
+    transform: translateX(24px);
+    background: url("./icons/checked-y.png");
+  }
+  
+  .slider.round {
+    border-radius: 12px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  </style>
+
+<label class="switch">
+    <input type="checkbox" checked>
+    <span class="slider round"></span>
+</label>
