@@ -1,8 +1,197 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <script src="header.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<p>coming in future</p>
+  <main class="hero">
+    <div class="icon-row"></div>
+    <h1 class="thefreedesignsolution">
+      The free .NET design solution
+    </h1>
+    <p>Effortlessly build apps impossible with pure WinForms.</p>
+    <div class="cta-buttons">
+      <button class="btn primary"onclick="document.location='https://www.nuget.org/packages/CuoreUI.Winforms/'">Get Started</button>
+      <button class="btn secondary" onclick="document.location='https://itzkxhu.gitbook.io/cuoreui'">Documentation</button>
+    </div>
+    <div class="downloads-container">
+      <p class="downloads-icon"></p>
+      <p class="downloads">
+        0
+      </p>
+    </div>
+    <script>
+      const downloadscounter = document.getElementsByClassName("downloads")[0];
+      let totalDownloads;
+  
+      async function getNuGetPackageDownloads(packageId) {
+          // thanks to https://github.com/NuGet/Home/issues/2596#issuecomment-300068538
+          const indexUrl = 'https://api.nuget.org/v3/index.json';
+  
+          try {
+              const indexResponse = await fetch(indexUrl);
+              if (!indexResponse.ok) {
+                  console.error(`error fetching service index: ${indexResponse.statusText}`);
+                  return;
+              }
+  
+              const indexData = await indexResponse.json();
+              const searchEndpoint = indexData.resources.find(r => r["@type"] === "SearchQueryService");
+  
+              if (!searchEndpoint) {
+                  console.error('search query service endpoint not found');
+                  return;
+              }
+  
+              const url = `${searchEndpoint["@id"]}?q=packageid:${packageId}`;
+              const response = await fetch(url);
+  
+              if (!response.ok) {
+                  console.error(`error fetching ${packageId} response: ${response.statusText}`);
+                  return;
+              }
+  
+              const data = await response.json();
+              const packageData = data.data[0];
+  
+              if (!data.totalHits || !packageData) {
+                  console.log('api returned no download data');
+                  return;
+              }
+  
+              if (packageData.totalDownloads == null || packageData.totalDownloads < 0) {
+                  console.log('data reported wrong number of downloads');
+                  return;
+              }
+  
+              totalDownloads = packageData.totalDownloads;
+              console.log(`fetched downloads count! ${totalDownloads} total downloads!`);
+              return totalDownloads;
+  
+          } catch (error) {
+              console.error(error);
+          }
+      }
+  
+      let checkingRightNow = true;
+  
+      async function check() {
+          const downloadsRightNow = await getNuGetPackageDownloads('CuoreUI.Winforms');
+          // if a valid number is returned
+          if (downloadsRightNow > 0) {
+              downloadscounter.innerText = downloadsRightNow;
+              clearInterval(getDownloadsTimer);
+          } else {
+              checkingRightNow = false;
+              downloadscounter.innerText = "We're working on getting the downloads..";
+              console.log("You aren't offline by any chance are you..?");
+          }
+      }
+  
+      check();
+  
+      async function checkDownloadsUntilValid() {
+          if (checkingRightNow) return;
+  
+          checkingRightNow = true;
+          console.clear();
+          const downloadsRightNow = await getNuGetPackageDownloads('CuoreUI.Winforms');
+  
+          // if a valid number is returned
+          const downloadCounter = document.querySelector('.download-counter');
+          if (downloadsRightNow > 0) {
+              downloadCounter.innerText = `The library has ${downloadsRightNow} total downloads on NuGet! (${perDayAverage} per day average)`;
+              clearInterval(getDownloadsTimer);
+          } else {
+              downloadCounter.innerText = "We're working on getting the downloads, we promise!";
+              console.log("You aren't offline by any chance are you..?");
+          }
+  
+          checkingRightNow = false;
+      }
+  
+      // get total downloads for cui and display it when ready otherwise try to get downloads until we have it
+      const getDownloadsTimer = setInterval(checkDownloadsUntilValid, 500); // every half second
+  </script>  
+  </main>
+
+  <footer class="section-divider">
+    <h2 class="features-headline">What we have to offer</h2>
+
+    <section class="features">
+      <div class="features-container">
+          <div class="feature-item">
+              <h3>Sleek controls</h3>
+              <p>Elevate your design with controls that look way better than default.</p>
+              <img draggable="false" src="./assets/features/rounding.svg" alt="Feature 1">
+          </div>
+          <div class="feature-item">
+              <h3>Unique features</h3>
+              <p>Controls which WinForms doesn't provide by default.</p>
+              <img draggable="false" src="./assets/features/architecture.svg" alt="Feature 2">
+          </div>
+          <div class="feature-item">
+              <h3>Transparency</h3>
+              <p>The source code and todo's are found at our GitHub repository.</p>
+              <img draggable="false" src="./assets/features/github-pixelated.svg" alt="Feature 3">
+          </div>
+      </div>
+  </section>
+  </footer>
+
+  <footer class="section-divider othersection">
+    <h2 class="try-headline">Try it out here</h2>
+    <p class="try-p">*These are really faithful recreations made in html.</p>
+
+    <section class="tryitout">
+      <div class="features-container try-container">
+          <div class="tryitout-item">
+              <h3>cuiSwitch</h3>
+              <p>Default settings</p>
+              <iframe class = "tryitout-iframe" src="assets/control-recreations/cuiSwitch.html"></iframe>
+          </div>
+          <div class="tryitout-item">
+              <h3>cuiTextBoxCreditCardNumber</h3>
+              <p>Default settings</p>
+              <iframe class = "tryitout-iframe" src="assets/control-recreations/cuiTextBoxCreditCardNumber.html"></iframe>
+          </div>
+          <div class="tryitout-item">
+            <h3>cuiCircleKnob</h3>
+            <p>Default settings</p>
+            <iframe class = "tryitout-iframe" src="assets/control-recreations/cuiCircleKnob.html"></iframe>
+        </div>
+      </div>
+      
+      <div class="features-container try-container">
+        <div class="tryitout-item">
+            <h3>cuiSwitch</h3>
+            <p>Default settings</p>
+            <iframe class = "tryitout-iframe taskbar-iframe" src="assets/control-recreations/cuiSwitch.html"></iframe>
+        </div>
+        <div class="tryitout-item">
+            <h3>cuiTextBoxCreditCardNumber</h3>
+            <p>Default settings</p>
+            <iframe class = "tryitout-iframe taskbar-iframe" src="assets/control-recreations/cuiTextBoxCreditCardNumber.html"></iframe>
+        </div>
+        <div class="tryitout-item">
+          <h3>cuiCircleKnob</h3>
+          <p>Default settings</p>
+          <iframe class = "tryitout-iframe taskbar-iframe" src="assets/control-recreations/cuiCircleKnob.html"></iframe>
+      </div>
+    </div>
+
+    <p style="margin-bottom: 1em; border-top: 1px solid rgb(128,128,128, 0.5);"></p>
+    <p style="margin-bottom: 2em;">Did we get you hooked?</p>
+    <div class="cta-buttons">
+      <button class="btn primary">Get Started</button>
+      <button class="btn secondary">Documentation</button>
+    </div>
+  </section>
+  </footer>
 </body>
-</html> 
+</html>
