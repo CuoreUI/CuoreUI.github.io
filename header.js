@@ -6,11 +6,16 @@ document.addEventListener("DOMContentLoaded", () => {
     <header class="top-bar">   
         <img class="logo" src="assets/cui mono.svg" alt="cui logo"/>
         <nav class="top-nav"></nav>
+        <div class="hamburger-container">
+              <button class="hamburger-nav">☰</button>
+              <div class="hamburger-navbuttons"></div>
+        </div>
     </header>`;
 
     document.body.insertAdjacentHTML("afterbegin", headerTemplate);
 
     const topNav = document.getElementsByClassName("top-nav")[0];
+    const hamburgerNavbuttons = document.getElementsByClassName("hamburger-navbuttons")[0];
 
     function AddPage(uri, name)
     {
@@ -36,6 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const b = `<a href="${uri}"><button class="${a}${additionalStyles}"><p>${name}</p></button></a>`;
         topNav.insertAdjacentHTML("beforeend", b);
+        
+        hamburgerNavbuttons.insertAdjacentHTML("beforeend", b);
     }
 
     AddPage("index.html", "Home");

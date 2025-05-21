@@ -11,11 +11,6 @@
   gap: 2px;
 }
 
-
-.downloads{
-
-}
-
 .downloads-icon
 {
 background-image: url("./assets/icons/downloads.svg");
@@ -79,6 +74,14 @@ width: auto;
     align-items: center;
     z-index: 10;
   }
+
+.hamburger-container
+{
+  position: absolute;
+  width: 100vw;
+  height: auto;
+}
+
   .logo {
     height: 40px;
     margin-right: 20px;
@@ -443,5 +446,126 @@ color: rgba(0, 0, 0, 0.5);
     width: 90%;
     color: rgba(0, 0, 0, 0.5);
   }
+
+  .hamburger-nav
+  {
+    position: absolute;
+    width: 32px;
+    aspect-ratio: 1;
+    left: calc(100vw - 72px);
+    top: -18px;
+    border: none;
+    background: none;
+    color:white;
+    font-size: 24px;
+    transition: all 1s cubic-bezier(0, 1.466, 0.149, 1);
+  }
+
+  .hamburger-nav-active
+  {
+    color: var(--cuoreui-primary);
+    transform: scale(1.2);
+  }
+
+  .hamburger-navbuttons, .hamburger-container
+  {
+    display: none;
+  }
+
+  .hamburger-navbuttons
+  {
+      left:0;
+      top: 48px;
+      height: 100vh;
+      width: calc(100vw - 2em);
+      margin:0;
+      padding: 0;
+      position: absolute;
+  }
   
-  
+  @media (orientation: portrait) 
+  {
+    .hamburger-navbuttons-active, .hamburger-container
+    {
+      display: block;
+    }
+
+    .top-nav
+    {
+      display: none;
+    }
+
+    .hamburger-navbuttons-active
+    {
+      transform: translateX(-1em);
+      padding-top: 1em;
+      width: 100vw;
+      background-color: #000000ef;
+      visibility: visible;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex-flow: column;
+      align-items: center;
+    }
+
+    .hamburger-navbuttons a
+    {
+      padding: 0.5em;
+    }
+
+    .thefreedesignsolution
+    {
+      transform: scale(1.40) translateY(-1rem);
+      background-image: url("assets/headline\ portrait.svg");
+    }
+
+    .features-container:not(.try-container)
+    {
+      transform: scale(0.9) translateY(-3rem);
+      padding-left: calc(28rem - 200%);
+      padding-top: 2rem;
+      padding-right: 1rem;
+      display: flex;
+      overflow-x: scroll;
+      scroll-behavior: smooth;
+      overflow-y: hidden;
+      flex-direction: row;
+      justify-content: left;
+    }
+
+    .feature-item
+    {
+      transform: scale(0.8);
+    }
+
+    .try-container
+    {
+      display: grid;
+    grid-template-columns: repeat(1, 384px);
+    gap: 1em;
+    width: 100vw;
+    padding-top: 2.5em;
+    padding-bottom: 4em;
+    }
+
+    .features-headline
+    {
+      background-image: url("assets/features\ headline\ portrait.svg");
+      background-size: 6em;
+      transform: scale(1.25);
+    }
+
+    @media (min-width: 608px) 
+    {
+      .icon-row
+      {
+        transform: translateY(-3rem);
+      }
+
+      .thefreedesignsolution
+      {
+        transform: scale(3) translateY(-1rem);
+      }
+    }
+  }
