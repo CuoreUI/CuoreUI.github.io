@@ -467,7 +467,7 @@ color: rgba(0, 0, 0, 0.5);
     transform: scale(1.2);
   }
 
-  .hamburger-navbuttons, .hamburger-container
+  .hamburger-navbuttons
   {
     display: none;
   }
@@ -485,12 +485,6 @@ color: rgba(0, 0, 0, 0.5);
   
   @media (orientation: portrait)
    {
-    .hamburger-navbuttons-active, .hamburger-container
-    {
-      display: block;
-      overflow-x:hidden;
-    }
-
     .top-nav
     {
       display: none;
@@ -500,7 +494,7 @@ color: rgba(0, 0, 0, 0.5);
     {
       transform: translateX(-1em);
       padding-top: 1em;
-      width: 100vw;
+      width: calc(100vw + 2px);
       background-color: #000000ef;
       visibility: visible;
       display: flex;
