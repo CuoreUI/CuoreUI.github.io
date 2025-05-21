@@ -483,11 +483,12 @@ color: rgba(0, 0, 0, 0.5);
       position: absolute;
   }
   
-  @media (orientation: portrait) 
-  {
+  @media (orientation: portrait)
+   {
     .hamburger-navbuttons-active, .hamburger-container
     {
       display: block;
+      overflow-x:hidden;
     }
 
     .top-nav
@@ -541,6 +542,7 @@ color: rgba(0, 0, 0, 0.5);
 
     .try-container
     {
+      overflow-x:hidden;
       display: grid;
     grid-template-columns: repeat(1, 384px);
     gap: 1em;
@@ -549,11 +551,21 @@ color: rgba(0, 0, 0, 0.5);
     padding-bottom: 4em;
     }
 
+    .tryitout-item h3
+    {
+      position: absolute;
+      width: 0;
+      overflow:hidden;
+      display:none;
+    }
+
     .features-headline
     {
+      width: 75vw;
       background-image: url("assets/features\ headline\ portrait.svg");
       background-size: 6em;
       transform: scale(1.25);
+      overflow: hidden;
     }
 
     @media (min-width: 608px) 
